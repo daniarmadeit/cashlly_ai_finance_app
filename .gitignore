@@ -43,6 +43,7 @@ yarn-error.*
 # Local configs
 .mcp.json
 .claude/
+docs/
 
 # Logs
 *.log
