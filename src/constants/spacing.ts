@@ -19,7 +19,19 @@ export const borderRadius = {
 
 export const layout = {
   screenPadding: 20,
-  contentWidth: 388,
+  maxContentWidth: 388,
+  baseScreenWidth: 428,
+  minScreenWidth: 375,
+
+  // Quick Actions
+  quickActionMaxWidth: 88,
+  quickActionHeight: 86,
+  quickActionGap: 12,
+
+  // Bottom Navigation
+  bottomNavHeight: 74,
+  bottomNavActiveMaxWidth: 150,
+  bottomNavTabSize: 62,
 } as const;
 
 export type SpacingToken = keyof typeof spacing;

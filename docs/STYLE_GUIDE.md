@@ -362,13 +362,65 @@ shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5)
 
 ---
 
+## 10. Responsive Layout
+
+### Adaptive Strategy
+Пропорциональное масштабирование с ограничениями maxWidth/minWidth
+
+**Base Design:**
+- Device: iPhone 14 Pro (428px width)
+- Min width: 375px (iPhone SE)
+- Content width: screenWidth - 40px
+
+### useResponsive Hook
+```typescript
+import { useResponsive } from '@/hooks/useResponsive';
+
+const {
+  screenWidth,
+  contentWidth,
+  quickActionWidth,
+  quickActionHeight
+} = useResponsive();
+```
+
+### Layout Constants
+```typescript
+export const layout = {
+  screenPadding: 20,
+  maxContentWidth: 388,
+  baseScreenWidth: 428,
+  minScreenWidth: 375,
+
+  // Quick Actions
+  quickActionMaxWidth: 88,
+  quickActionHeight: 86,
+  quickActionGap: 12,
+
+  // Bottom Navigation
+  bottomNavHeight: 74,
+  bottomNavActiveMaxWidth: 150,
+  bottomNavTabSize: 62,
+}
+```
+
+### Component Responsiveness
+- **QuickActionButton:** Пропорциональное масштабирование (88:86 aspect ratio)
+- **BottomNavigation:** Активный таб flex: 1 с maxWidth: 150
+- **Поддержка экранов:** 360px - 1024px+
+
+---
+
 ## Usage Example
 
 ```typescript
 // Импорт темы
-import { colors, typography, spacing } from '@/theme';
+import { colors, typography, spacing, layout } from '@/constants';
+import { useResponsive } from '@/hooks/useResponsive';
 
 // Использование
+const { quickActionWidth, quickActionHeight } = useResponsive();
+
 <View style={{
   backgroundColor: colors.gray100,
   padding: spacing.xl
@@ -376,5 +428,13 @@ import { colors, typography, spacing } from '@/theme';
   <Text style={typography.title1}>
     Welcome to Cashlly
   </Text>
+
+  <QuickActionButton
+    width={quickActionWidth}
+    height={quickActionHeight}
+    icon={<TopUpIcon />}
+    label="Top Up"
+    onPress={handlePress}
+  />
 </View>
 ```

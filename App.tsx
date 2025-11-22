@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { colors } from './src/constants';
-import ComponentPreview from './src/screens/ComponentPreview';
+import { HomeScreen } from './src/screens/HomeScreen';
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -38,7 +38,7 @@ export default function App() {
     <SafeAreaProvider>
       <View style={styles.container}>
         <StatusBar style="light" />
-        <ComponentPreview />
+        <HomeScreen />
       </View>
     </SafeAreaProvider>
   );
