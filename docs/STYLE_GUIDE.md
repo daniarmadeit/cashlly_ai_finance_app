@@ -365,7 +365,7 @@ shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5)
 ## 10. Responsive Layout
 
 ### Adaptive Strategy
-Пропорциональное масштабирование с ограничениями maxWidth/minWidth
+Пропорциональное масштабирование с ограничениями maxWidth/minWidth + адаптивная типографика
 
 **Base Design:**
 - Device: iPhone 14 Pro (428px width)
@@ -380,7 +380,9 @@ const {
   screenWidth,
   contentWidth,
   quickActionWidth,
-  quickActionHeight
+  quickActionHeight,
+  getResponsiveTypography,  // NEW!
+  getResponsiveFontSize,    // NEW!
 } = useResponsive();
 ```
 
@@ -404,10 +406,107 @@ export const layout = {
 }
 ```
 
+### Adaptive Typography System
+
+**Ключевой принцип:** Текст автоматически масштабируется на разных экранах, предотвращая переносы и сохраняя читаемость.
+
+#### getResponsiveTypography()
+Возвращает адаптивный стиль текста с автоматическим масштабированием размера и lineHeight.
+
+```typescript
+const labelStyle = getResponsiveTypography('body2', {
+  minScale: 0.75,  // минимум 75% от базового размера (на экранах <375px)
+  maxScale: 1.0,   // максимум 100% от базового размера
+});
+
+// Использование
+<Text style={labelStyle} numberOfLines={1} adjustsFontSizeToFit>
+  Top Up
+</Text>
+```
+
+**Параметры:**
+- `styleKey`: ключ из typography (body, headline, title1, etc.)
+- `minScale`: минимальный множитель (по умолчанию 0.8)
+- `maxScale`: максимальный множитель (по умолчанию 1.0)
+
+#### Best Practices для адаптивного текста
+
+1. **Для кнопок и коротких лейблов:**
+   ```typescript
+   const { getResponsiveTypography } = useResponsive();
+   const labelStyle = getResponsiveTypography('body2', {
+     minScale: 0.75,
+     maxScale: 1.0
+   });
+
+   <Text
+     style={labelStyle}
+     numberOfLines={1}           // ВАЖНО: запрет переноса
+     adjustsFontSizeToFit        // автоматическое уменьшение при нехватке места
+     minimumFontScale={0.7}      // минимальный размер 70%
+   >
+     Top Up
+   </Text>
+   ```
+
+2. **Для навигации:**
+   ```typescript
+   const activeLabelStyle = getResponsiveTypography('headline', {
+     minScale: 0.8,
+     maxScale: 1.0,
+   });
+   ```
+
+3. **Для обычного текста:**
+   ```typescript
+   const textStyle = getResponsiveTypography('body', {
+     minScale: 0.85,
+     maxScale: 1.0,
+   });
+   ```
+
+#### Алгоритм масштабирования
+
+```typescript
+// 1. Вычисляем scale factor на основе ширины экрана
+const scale = screenWidth / 428;  // 428 = базовая ширина (iPhone 14 Pro)
+
+// 2. Применяем ограничения
+const scaleFactor = Math.max(minScale, Math.min(scale, maxScale));
+
+// 3. Масштабируем fontSize и lineHeight пропорционально
+fontSize = baseFontSize * scaleFactor;
+lineHeight = baseLineHeight * scaleFactor;
+```
+
+**Примеры расчётов:**
+- iPhone 14 Pro (428px): scale = 1.0 → fontSize: 15px
+- iPhone SE (375px): scale = 0.875 → fontSize: 13.1px (если minScale = 0.8)
+- iPhone 12 Mini (360px): scale = 0.84 → fontSize: 12.6px (если minScale = 0.8)
+- iPad Mini (768px): scale = 1.0 → fontSize: 15px (ограничено maxScale)
+
 ### Component Responsiveness
-- **QuickActionButton:** Пропорциональное масштабирование (88:86 aspect ratio)
-- **BottomNavigation:** Активный таб flex: 1 с maxWidth: 150
+- **QuickActionButton:** Пропорциональное масштабирование (88:86 aspect ratio) + адаптивный текст
+- **BottomNavigation:** Активный таб flex: 1 с maxWidth: 150 + адаптивный текст
+- **QuickSendCard, AIInsightCard, TransactionItem:** Адаптивная типографика
 - **Поддержка экранов:** 360px - 1024px+
+
+### Защита от переноса текста
+
+**Проблема:** На маленьких экранах текст "Withdraw" становится "With draw" (перенос посередине слова).
+
+**Решение:**
+```typescript
+<Text
+  numberOfLines={1}           // 1. Ограничить одной строкой
+  adjustsFontSizeToFit        // 2. Автоматически уменьшить размер
+  minimumFontScale={0.7}      // 3. Минимум 70% от размера
+  style={responsiveStyle}      // 4. Использовать адаптивный стиль
+>
+  {text}
+</Text>
+```
 
 ---
 
@@ -419,13 +518,28 @@ import { colors, typography, spacing, layout } from '@/constants';
 import { useResponsive } from '@/hooks/useResponsive';
 
 // Использование
-const { quickActionWidth, quickActionHeight } = useResponsive();
+const {
+  quickActionWidth,
+  quickActionHeight,
+  getResponsiveTypography
+} = useResponsive();
+
+// Адаптивная типографика
+const titleStyle = getResponsiveTypography('title1', {
+  minScale: 0.85,
+  maxScale: 1.0,
+});
+
+const labelStyle = getResponsiveTypography('body2', {
+  minScale: 0.75,
+  maxScale: 1.0,
+});
 
 <View style={{
   backgroundColor: colors.gray100,
   padding: spacing.xl
 }}>
-  <Text style={typography.title1}>
+  <Text style={titleStyle} numberOfLines={2}>
     Welcome to Cashlly
   </Text>
 

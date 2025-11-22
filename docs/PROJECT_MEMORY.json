@@ -1,0 +1,281 @@
+{
+  "project": {
+    "name": "Cashlly AI Finance App",
+    "description": "AI-powered финансовое приложение для трекинга расходов и доходов",
+    "stack": {
+      "framework": "React Native",
+      "platform": "Expo SDK 52",
+      "backend": "Supabase",
+      "language": "TypeScript"
+    }
+  },
+  "design": {
+    "figma": {
+      "fileKey": "rusG2KFbHL8jCYGWflCXGp",
+      "sections": {
+        "colors": "105:224",
+        "typography": "880:991",
+        "buttons": "880:1999",
+        "buttonLarge": "3298:782",
+        "buttonMedium": "3298:1050",
+        "buttonSmall": "931:2175",
+        "icons": "880:2927",
+        "forms": "880:3781",
+        "formInput": "10:3738",
+        "formDropdown": "133:7240",
+        "elements": "59012:4065",
+        "grid": "10:19804"
+      }
+    },
+    "theme": {
+      "colors": {
+        "primary": "#9A84FF",
+        "shades": {
+          "100": "#0C0C0C",
+          "200": "#141414",
+          "300": "#FD7B60",
+          "400": "#0A8AF3",
+          "500": "#2A2A2A",
+          "600": "#8E8E8E",
+          "700": "#FFFFFF"
+        },
+        "grayscale": {
+          "gray100": "#050505",
+          "gray200": "#141414",
+          "gray300": "#2A2A2A",
+          "gray500": "#8E8E8E",
+          "white": "#FFFFFF"
+        },
+        "semantic": {
+          "success": "#04B155",
+          "error": "#C93838",
+          "info": "#0A8AF3",
+          "accent": "#FD7B60"
+        }
+      },
+      "font": "Onest",
+      "fontWeights": ["Regular (400)", "SemiBold (600)"]
+    }
+  },
+  "structure": {
+    "src/constants": {
+      "colors.ts": "Цветовые токены",
+      "typography.ts": "Стили текста",
+      "spacing.ts": "Отступы, border radius и layout константы",
+      "index.ts": "Реэкспорт"
+    },
+    "src/theme": {
+      "index.ts": "Объединённая тема с component tokens"
+    },
+    "src/hooks": {
+      "useResponsive.ts": "Hook для адаптивной вёрстки, расчёта размеров и типографики (getResponsiveTypography, getResponsiveFontSize)",
+      "index.ts": "Реэкспорт hooks"
+    },
+    "src/components/icons": {
+      "TopUpIcon.tsx": "Иконка пополнения",
+      "SendIcon.tsx": "Иконка отправки",
+      "ReceiveIcon.tsx": "Иконка получения",
+      "WithdrawIcon.tsx": "Иконка вывода",
+      "AIIcon.tsx": "Иконка AI",
+      "EyeIcon.tsx": "Иконка показать/скрыть",
+      "ArrowRightIcon.tsx": "Стрелка вправо",
+      "NotificationIcon.tsx": "Иконка уведомлений",
+      "HomeIcon.tsx": "Иконка главной",
+      "AnalystIcon.tsx": "Иконка аналитики",
+      "TargetIcon.tsx": "Иконка целей",
+      "UserIcon.tsx": "Иконка профиля",
+      "index.ts": "Реэкспорт иконок"
+    },
+    "src/components/ui": {
+      "Button.tsx": "Кнопки (large/medium/small, primary/outline)",
+      "Input.tsx": "Текстовые поля с состояниями",
+      "Dropdown.tsx": "Выпадающий список",
+      "Search.tsx": "Поле поиска (full/small)",
+      "TextArea.tsx": "Многострочное текстовое поле",
+      "Checkbox.tsx": "Чекбокс с лейблом",
+      "Radio.tsx": "Радио-кнопка с лейблом",
+      "Toggle.tsx": "Переключатель (switch)",
+      "QuickActionButton.tsx": "Адаптивная кнопка быстрых действий",
+      "QuickSendCard.tsx": "Карточка быстрой отправки с аватаром",
+      "AIInsightCard.tsx": "Карточка AI Insights с градиентом",
+      "TransactionItem.tsx": "Элемент транзакции (Received/Failed)",
+      "BottomNavigation.tsx": "Адаптивная нижняя навигация",
+      "index.ts": "Реэкспорт компонентов"
+    },
+    "src/screens": {
+      "ComponentPreview.tsx": "Экран превью всех компонентов",
+      "HomeScreen.tsx": "Главный экран приложения (адаптивный)"
+    },
+    "assets/images/home": {
+      "profile.png": "Аватар пользователя",
+      "avatar-*.png": "Аватары контактов (5 шт)",
+      "transaction-*.png": "Аватары транзакций (2 шт)",
+      "icon-*.png": "Иконки UI (12 шт)",
+      "ai-gradient.png": "Градиент для AI карточки"
+    },
+    "docs": {
+      "STYLE_GUIDE.md": "Полная документация по дизайн-системе",
+      "PROJECT_MEMORY.json": "Память проекта и прогресс"
+    }
+  },
+  "components": {
+    "Button": {
+      "sizes": {
+        "large": { "height": 60, "borderRadius": 48, "fontSize": 18 },
+        "medium": { "height": 56, "borderRadius": 56, "fontSize": 15 },
+        "small": { "height": 46, "borderRadius": 46, "fontSize": 15 }
+      },
+      "variants": ["primary", "outline"],
+      "props": ["title", "onPress", "size", "variant", "disabled", "loading", "fullWidth"]
+    },
+    "QuickActionButton": {
+      "baseSize": { "width": 88, "height": 86 },
+      "adaptive": true,
+      "aspectRatio": "88:86",
+      "borderRadius": 20,
+      "props": ["icon", "label", "onPress", "width", "height"]
+    },
+    "QuickSendCard": {
+      "width": 75,
+      "aspectRatio": "88/91",
+      "borderRadius": 15,
+      "props": ["name", "avatar", "onPress"]
+    },
+    "AIInsightCard": {
+      "height": 88,
+      "borderRadius": 20,
+      "iconSize": 28,
+      "props": ["onPress"]
+    },
+    "TransactionItem": {
+      "height": 80,
+      "borderRadius": 20,
+      "states": ["Received", "Faild"],
+      "props": ["name", "date", "amount", "status", "avatar", "onPress"]
+    },
+    "BottomNavigation": {
+      "height": 74,
+      "borderRadius": 57,
+      "activeTabMaxWidth": 150,
+      "tabSize": 62,
+      "adaptive": true,
+      "props": ["activeTab", "onTabPress"]
+    },
+    "Input": {
+      "height": 56,
+      "borderRadius": 43,
+      "states": ["default", "active", "filled", "error", "disabled"],
+      "props": ["placeholder", "value", "onChangeText", "error", "disabled"]
+    },
+    "Dropdown": {
+      "height": 56,
+      "borderRadius": 43,
+      "states": ["default", "disabled", "selected"],
+      "props": ["placeholder", "value", "options", "onSelect", "disabled"]
+    },
+    "Search": {
+      "height": 56,
+      "sizes": {
+        "full": { "width": 388, "borderRadius": 37 },
+        "small": { "width": 358, "borderRadius": 38 }
+      },
+      "props": ["size", "value", "onChangeText", "placeholder"]
+    },
+    "TextArea": {
+      "height": 105,
+      "borderRadius": 20,
+      "states": ["default", "active", "field", "error", "disabled"],
+      "props": ["placeholder", "value", "onChangeText", "error", "disabled"]
+    },
+    "Checkbox": {
+      "size": 20,
+      "borderRadius": 6,
+      "props": ["checked", "label", "onPress", "disabled"]
+    },
+    "Radio": {
+      "size": 20,
+      "borderRadius": 10,
+      "props": ["selected", "label", "onPress", "disabled"]
+    },
+    "Toggle": {
+      "width": 51,
+      "height": 31,
+      "knobSize": 27,
+      "props": ["value", "onValueChange", "disabled"]
+    }
+  },
+  "progress": {
+    "completed": [
+      "Анализ Figma макетов (Style Guide)",
+      "Создание документации STYLE_GUIDE.md",
+      "Константы: colors, typography, spacing",
+      "Обновление цветовой палитры согласно Figma (shades 100-700)",
+      "Theme с component tokens",
+      "Layout константы с адаптивными значениями",
+      "Компонент Button (3 размера, 2 варианта)",
+      "Компонент Input (5 состояний)",
+      "Компонент Dropdown",
+      "Компонент Search (адаптивный, 2 размера)",
+      "Компонент TextArea (5 состояний)",
+      "Компонент Checkbox",
+      "Компонент Radio",
+      "Компонент Toggle",
+      "Компонент QuickActionButton (адаптивный, пропорциональное масштабирование)",
+      "Компонент QuickSendCard (карточка контакта)",
+      "Компонент AIInsightCard (с градиентным фоном)",
+      "Компонент TransactionItem (Received/Failed)",
+      "Компонент BottomNavigation (адаптивный)",
+      "12 компонентов иконок (TopUp, Send, Receive, Withdraw, AI, Eye, etc.)",
+      "Hook useResponsive для адаптивной вёрстки",
+      "Скачаны все ассеты из Figma (22 файла)",
+      "Главный экран HomeScreen (100% по макету)",
+      "Адаптивная вёрстка с сохранением пропорций",
+      "Система адаптивной типографики (getResponsiveTypography)",
+      "Защита от переноса текста во всех компонентах",
+      "Обновлены компоненты: QuickActionButton, BottomNavigation, QuickSendCard, AIInsightCard, TransactionItem",
+      "Установка expo-linear-gradient для градиентов",
+      "Инициализация Expo проекта (SDK 54)",
+      "Экран ComponentPreview для тестирования всех компонентов"
+    ],
+    "pending": [
+      "Остальные экраны приложения из Figma",
+      "Навигация (React Navigation)",
+      "Интеграция с Supabase",
+      "AI функционал"
+    ]
+  },
+  "responsive": {
+    "approach": "Пропорциональное масштабирование с ограничениями + адаптивная типографика",
+    "baseWidth": 428,
+    "minWidth": 375,
+    "maxContentWidth": 388,
+    "features": [
+      "useResponsive hook для динамических расчётов",
+      "Сохранение пропорций кнопок (88:86)",
+      "Адаптивные размеры с maxWidth/minWidth",
+      "Адаптивная типографика: getResponsiveTypography()",
+      "Защита от переноса текста (numberOfLines + adjustsFontSizeToFit)",
+      "Автоматическое масштабирование fontSize и lineHeight",
+      "Поддержка любых экранов (360px - 1024px+)"
+    ],
+    "typography": {
+      "system": "Adaptive Typography System",
+      "algorithm": "scale = screenWidth / 428; fontSize = baseFontSize * clamp(scale, minScale, maxScale)",
+      "defaults": {
+        "minScale": 0.8,
+        "maxScale": 1.0
+      },
+      "textProtection": [
+        "numberOfLines={1} - запрет переноса строк",
+        "adjustsFontSizeToFit - авто-уменьшение при нехватке места",
+        "minimumFontScale={0.7} - минимум 70% от размера"
+      ]
+    }
+  },
+  "commands": {
+    "install": "yarn install",
+    "start": "npx expo start",
+    "android": "npx expo start --android",
+    "ios": "npx expo start --ios"
+  }
+}

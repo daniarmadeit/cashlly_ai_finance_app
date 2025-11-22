@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
-import { colors, typography, layout } from '@/constants';
+import { colors, layout } from '@/constants';
+import { useResponsive } from '@/hooks';
 
 interface QuickActionButtonProps {
   icon: ReactNode;
@@ -19,6 +20,14 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   width,
   height,
 }) => {
+  const { getResponsiveTypography } = useResponsive();
+
+  // Адаптивная типографика для кнопок: минимум 80% от базового размера
+  const labelStyle = getResponsiveTypography('body2', {
+    minScale: 0.75,  // на экранах <375px шрифт будет 75% от 15px = ~11px
+    maxScale: 1.0,   // на больших экранах максимум 15px
+  });
+
   return (
     <TouchableOpacity
       style={[
@@ -32,7 +41,14 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
       activeOpacity={0.8}
     >
       {icon}
-      <Text style={styles.label} numberOfLines={2}>{label}</Text>
+      <Text
+        style={[styles.label, labelStyle]}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.7}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -48,7 +64,6 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   label: {
-    ...typography.body2,
     color: colors.white,
     textAlign: 'center',
   },

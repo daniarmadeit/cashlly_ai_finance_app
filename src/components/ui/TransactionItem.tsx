@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ImageSourcePropType } from 'react-native';
-import { colors, typography } from '@/constants';
+import { colors } from '@/constants';
+import { useResponsive } from '@/hooks';
 
 interface TransactionItemProps {
   name: string;
@@ -19,8 +20,30 @@ export const TransactionItem: React.FC<TransactionItemProps> = ({
   avatar,
   onPress,
 }) => {
+  const { getResponsiveTypography } = useResponsive();
+
   const isSuccess = status === 'Received';
   const amountColor = isSuccess ? colors.success : colors.error;
+
+  const nameStyle = getResponsiveTypography('body', {
+    minScale: 0.85,
+    maxScale: 1.0,
+  });
+
+  const dateStyle = getResponsiveTypography('body', {
+    minScale: 0.85,
+    maxScale: 1.0,
+  });
+
+  const amountStyle = getResponsiveTypography('callout', {
+    minScale: 0.85,
+    maxScale: 1.0,
+  });
+
+  const statusStyle = getResponsiveTypography('callout', {
+    minScale: 0.85,
+    maxScale: 1.0,
+  });
 
   return (
     <TouchableOpacity
@@ -31,13 +54,15 @@ export const TransactionItem: React.FC<TransactionItemProps> = ({
       <View style={styles.leftContainer}>
         <Image source={avatar} style={styles.avatar} />
         <View style={styles.textContainer}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.date}>{date}</Text>
+          <Text style={[styles.name, nameStyle]} numberOfLines={1}>{name}</Text>
+          <Text style={[styles.date, dateStyle]} numberOfLines={1}>{date}</Text>
         </View>
       </View>
       <View style={styles.rightContainer}>
-        <Text style={[styles.amount, { color: amountColor }]}>{amount}</Text>
-        <Text style={styles.status}>{status}</Text>
+        <Text style={[styles.amount, amountStyle, { color: amountColor }]} numberOfLines={1}>
+          {amount}
+        </Text>
+        <Text style={[styles.status, statusStyle]} numberOfLines={1}>{status}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -70,21 +95,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    ...typography.body,
     color: colors.white,
   },
   date: {
-    ...typography.body,
     color: colors.gray500,
   },
   rightContainer: {
     alignItems: 'flex-end',
   },
   amount: {
-    ...typography.callout,
+    // color applied dynamically
   },
   status: {
-    ...typography.callout,
     color: colors.gray500,
   },
 });

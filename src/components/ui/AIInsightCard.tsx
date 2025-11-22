@@ -1,13 +1,26 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import { colors, typography } from '@/constants';
+import { colors } from '@/constants';
 import { AIIcon, ArrowRightIcon } from '@/components/icons';
+import { useResponsive } from '@/hooks';
 
 interface AIInsightCardProps {
   onPress: () => void;
 }
 
 export const AIInsightCard: React.FC<AIInsightCardProps> = ({ onPress }) => {
+  const { getResponsiveTypography } = useResponsive();
+
+  const titleStyle = getResponsiveTypography('headline', {
+    minScale: 0.85,
+    maxScale: 1.0,
+  });
+
+  const subtitleStyle = getResponsiveTypography('body2', {
+    minScale: 0.85,
+    maxScale: 1.0,
+  });
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -23,8 +36,12 @@ export const AIInsightCard: React.FC<AIInsightCardProps> = ({ onPress }) => {
           <AIIcon size={28} />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>AI Insights</Text>
-          <Text style={styles.subtitle}>Assess How You Spend Money</Text>
+          <Text style={[styles.title, titleStyle]} numberOfLines={1}>
+            AI Insights
+          </Text>
+          <Text style={[styles.subtitle, subtitleStyle]} numberOfLines={1}>
+            Assess How You Spend Money
+          </Text>
         </View>
         <View style={styles.arrowContainer}>
           <ArrowRightIcon size={24} />
@@ -64,11 +81,9 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   title: {
-    ...typography.headline,
     color: colors.gray100,
   },
   subtitle: {
-    ...typography.body2,
     color: colors.gray100,
   },
   arrowContainer: {

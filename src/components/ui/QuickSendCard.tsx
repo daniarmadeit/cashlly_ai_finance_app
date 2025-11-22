@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ImageSourcePropType } from 'react-native';
-import { colors, typography } from '@/constants';
+import { colors } from '@/constants';
+import { useResponsive } from '@/hooks';
 
 interface QuickSendCardProps {
   name: string;
@@ -13,6 +14,13 @@ export const QuickSendCard: React.FC<QuickSendCardProps> = ({
   avatar,
   onPress,
 }) => {
+  const { getResponsiveTypography } = useResponsive();
+
+  const nameStyle = getResponsiveTypography('body2', {
+    minScale: 0.8,
+    maxScale: 1.0,
+  });
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -22,7 +30,14 @@ export const QuickSendCard: React.FC<QuickSendCardProps> = ({
       <View style={styles.avatarContainer}>
         <Image source={avatar} style={styles.avatar} resizeMode="cover" />
       </View>
-      <Text style={styles.name}>{name}</Text>
+      <Text
+        style={[styles.name, nameStyle]}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.7}
+      >
+        {name}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -44,7 +59,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   name: {
-    ...typography.body2,
     color: colors.white,
     textAlign: 'center',
   },

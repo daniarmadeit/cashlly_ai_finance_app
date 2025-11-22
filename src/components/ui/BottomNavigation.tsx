@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { colors, typography, layout } from '@/constants';
+import { colors, layout } from '@/constants';
 import { HomeIcon, AnalystIcon, TargetIcon, UserIcon } from '@/components/icons';
+import { useResponsive } from '@/hooks';
 
 type TabName = 'Home' | 'Analytics' | 'Target' | 'Profile';
 
@@ -14,6 +15,14 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   activeTab,
   onTabPress,
 }) => {
+  const { getResponsiveTypography } = useResponsive();
+
+  // Адаптивная типографика для активного таба
+  const activeLabelStyle = getResponsiveTypography('headline', {
+    minScale: 0.8,
+    maxScale: 1.0,
+  });
+
   const tabs: { name: TabName; icon: React.FC<any> }[] = [
     { name: 'Home', icon: HomeIcon },
     { name: 'Analytics', icon: AnalystIcon },
@@ -38,7 +47,16 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             activeOpacity={0.8}
           >
             <Icon size={24} />
-            {isActive && <Text style={styles.activeLabel} numberOfLines={1}>{tab.name}</Text>}
+            {isActive && (
+              <Text
+                style={[styles.activeLabel, activeLabelStyle]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.75}
+              >
+                {tab.name}
+              </Text>
+            )}
           </TouchableOpacity>
         );
       })}
@@ -77,7 +95,6 @@ const styles = StyleSheet.create({
     width: undefined,
   },
   activeLabel: {
-    ...typography.headline,
     color: colors.gray100,
   },
 });
