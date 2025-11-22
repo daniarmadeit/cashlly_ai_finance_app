@@ -34,7 +34,7 @@ export const theme = {
     input: {
       height: 56,
       backgroundColor: colors.gray200,
-      borderColor: colors.gray400,
+      borderColor: colors.gray300,
       borderColorFocus: colors.primary,
       borderColorError: colors.error,
       textColor: colors.white,
@@ -45,7 +45,7 @@ export const theme = {
     textArea: {
       minHeight: 120,
       backgroundColor: colors.gray200,
-      borderColor: colors.gray400,
+      borderColor: colors.gray300,
       borderRadius: borderRadius.md,
       padding: 16,
     },

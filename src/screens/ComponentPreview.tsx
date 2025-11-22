@@ -7,13 +7,20 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, typography, spacing } from '../constants';
-import { Button, Input, Dropdown } from '../components/ui';
+import { Button, Input, Dropdown, Search, TextArea, Checkbox, Radio, Toggle } from '../components/ui';
 
 export default function ComponentPreview() {
   const insets = useSafeAreaInsets();
   const [inputValue, setInputValue] = useState('');
   const [errorInput, setErrorInput] = useState('test@email');
   const [dropdownValue, setDropdownValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
+  const [textAreaValue, setTextAreaValue] = useState('');
+  const [checkbox1, setCheckbox1] = useState(false);
+  const [checkbox2, setCheckbox2] = useState(true);
+  const [selectedRadio, setSelectedRadio] = useState('1');
+  const [toggle1, setToggle1] = useState(false);
+  const [toggle2, setToggle2] = useState(true);
 
   const dropdownOptions = [
     { label: 'Option 1', value: '1' },
@@ -151,6 +158,131 @@ export default function ComponentPreview() {
           value=""
           options={dropdownOptions}
           onSelect={() => {}}
+          disabled
+        />
+      </View>
+
+      {/* Search Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Search</Text>
+
+        <Text style={styles.label}>Full Width</Text>
+        <Search
+          size="full"
+          value={searchValue}
+          onChangeText={setSearchValue}
+        />
+
+        <Text style={styles.label}>Small</Text>
+        <Search
+          size="small"
+          value={searchValue}
+          onChangeText={setSearchValue}
+        />
+      </View>
+
+      {/* TextArea Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Text Area</Text>
+
+        <Text style={styles.label}>Default</Text>
+        <TextArea
+          placeholder="Placeholder"
+          value={textAreaValue}
+          onChangeText={setTextAreaValue}
+        />
+
+        <Text style={styles.label}>Error State</Text>
+        <TextArea
+          placeholder="Placeholder"
+          value="Some text"
+          onChangeText={() => {}}
+          error="Hint text"
+        />
+
+        <Text style={styles.label}>Disabled</Text>
+        <TextArea
+          placeholder="Placeholder"
+          disabled
+        />
+      </View>
+
+      {/* Checkbox Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Checkbox</Text>
+
+        <Text style={styles.label}>Unchecked</Text>
+        <Checkbox
+          checked={checkbox1}
+          label="Label"
+          onPress={setCheckbox1}
+        />
+
+        <Text style={styles.label}>Checked</Text>
+        <Checkbox
+          checked={checkbox2}
+          label="Label"
+          onPress={setCheckbox2}
+        />
+
+        <Text style={styles.label}>Disabled</Text>
+        <Checkbox
+          checked={false}
+          label="Label"
+          disabled
+        />
+      </View>
+
+      {/* Radio Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Radio Button</Text>
+
+        <Text style={styles.label}>Options</Text>
+        <Radio
+          selected={selectedRadio === '1'}
+          label="Option 1"
+          onPress={() => setSelectedRadio('1')}
+        />
+        <View style={{ marginTop: spacing.md }} />
+        <Radio
+          selected={selectedRadio === '2'}
+          label="Option 2"
+          onPress={() => setSelectedRadio('2')}
+        />
+        <View style={{ marginTop: spacing.md }} />
+        <Radio
+          selected={selectedRadio === '3'}
+          label="Option 3"
+          onPress={() => setSelectedRadio('3')}
+        />
+
+        <Text style={styles.label}>Disabled</Text>
+        <Radio
+          selected={false}
+          label="Disabled option"
+          disabled
+        />
+      </View>
+
+      {/* Toggle Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Toggle / Switch</Text>
+
+        <Text style={styles.label}>Off</Text>
+        <Toggle
+          value={toggle1}
+          onValueChange={setToggle1}
+        />
+
+        <Text style={styles.label}>On</Text>
+        <Toggle
+          value={toggle2}
+          onValueChange={setToggle2}
+        />
+
+        <Text style={styles.label}>Disabled</Text>
+        <Toggle
+          value={false}
           disabled
         />
       </View>
